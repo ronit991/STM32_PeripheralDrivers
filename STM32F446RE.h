@@ -1,4 +1,7 @@
-/**/
+/******************************************************************************************************************
+* 
+******************************************************************************************************************/
+
 
 #ifndef STM32F446RE_H
 #define STM32F446RE_H
@@ -13,16 +16,15 @@
 #define __vo    volatile
 #define __reg   volatile uint32_t
 
+#define SetBit(x) |= (1<<x)
+#define ClrBit(x) &= ~(1<<x)
+#define GetBit(reg,bit) ( (reg & (1<<bit))?1:0 )
 
-/*
-  Per
-*/
 
-/*
-  CORE COMPONENTS
-*/
+/******************************************************************************************************************
+*                                        Base Addresses of Core Components
+******************************************************************************************************************/
 
-//  1.1 - Base Addresses
 #define FLASH_BASEADDR                0x08000000U             // Base Addr of Flash Memory
 #define SRAM1_BASEADDR                0x20000000U             // Base Addr of SRAM1
 #define SRAM2_BASEADDR                0x2001C000U             // Base Addr of SRAM2
@@ -48,7 +50,10 @@
 
 
 
-//  1.2 - Reset & Clock Control Block
+/******************************************************************************************************************
+*                                        RCC: Reset & Clock Control Block
+******************************************************************************************************************/
+
 typedef struct
 {
   __reg CR;
@@ -89,8 +94,88 @@ typedef struct
 }RCC_reg;
 #define RCC ( (RCC_reg*) RCC_BASEADDR )
 
+//  Bit Position Alias for RCC Registers - AHB1 Peripherals
 
-// 1.3 EXTI - External Interrupt Controller
+#define RCC_GPIOA         0
+#define RCC_GPIOB         1
+#define RCC_GPIOC         2
+#define RCC_GPIOD         3
+#define RCC_GPIOE         4
+#define RCC_GPIOF         5
+#define RCC_GPIOG         6
+#define RCC_GPIOH         7
+#define RCC_CRC           12
+#define RCC_BPK_SRAM      18
+#define RCC_DMA1          21
+#define RCC_DMA2          22
+#define RCC_OTGHS         29
+#define RCC_OTGHS_ULPI    30
+
+//  Bit Position Alias for RCC Registers - AHB2 Peripherals
+
+#define RCC_DCMI          0
+#define RCC_OTGFS         7
+
+//  Bit Position Alias for RCC Registers - AHB3 Peripherals
+
+#define RCC_FMC           0
+#define RCC_QSPI          1
+
+//  Bit Position Alias for RCC Registers - APB1 Peripherals
+
+#define RCC_TIM2          0
+#define RCC_TIM3          1
+#define RCC_TIM4          2
+#define RCC_TIM5          3
+#define RCC_TIM6          4
+#define RCC_TIM7          5
+#define RCC_TIM12         6
+#define RCC_TIM13         7
+#define RCC_TIM14         8
+#define RCC_WWDG          11
+#define RCC_SPI2          14
+#define RCC_SPI3          15
+#define RCC_SPDIFRX       16
+#define RCC_USART2        17
+#define RCC_USART3        18
+#define RCC_UART4         19
+#define RCC_UART5         20
+#define RCC_I2C1          21
+#define RCC_I2C2          22
+#define RCC_I2C3          23
+#define RCC_FMPI2C1       24
+#define RCC_CAN1          25
+#define RCC_CAN2          26
+#define RCC_CEC           27
+#define RCC_PWR           28
+#define RCC_DAC           29
+
+//  Bit Position Alias for RCC Registers - APB2 Peripherals
+
+#define RCC_TIM1          0
+#define RCC_TIM8          1
+#define RCC_USART1        4
+#define RCC_USART6        5
+#define RCC_ADC1          8
+#define RCC_ADC2          9
+#define RCC_ADC3          10
+#define RCC_SDIO          11
+#define RCC_SPI1          12
+#define RCC_SPI4          13
+#define RCC_SYSCFG        14
+#define RCC_TIM9          16
+#define RCC_TIM10         17
+#define RCC_TIM11         28
+#define RCC_SAI1          22
+#define RCC_SAI2          23
+
+
+
+
+
+/******************************************************************************************************************
+*                                      EXTI - External Interrupt Controller
+******************************************************************************************************************/
 
 typedef struct
 {
@@ -103,7 +188,11 @@ typedef struct
 }EXTI_reg;
 #define EXTI ( (EXTI_reg*) EXTI_BASEADDR )
 
-// 1.4 SYSCFG - System Configuration
+
+
+/******************************************************************************************************************
+*                                          SYSCFG - System Configuration
+******************************************************************************************************************/
 
 typedef struct
 {
@@ -114,8 +203,10 @@ typedef struct
   __reg CMPCR;
   __reg Reserved1[2];
   __reg CFGR;
-}SYSCFG_Reg;
+}SYSCFG_reg;
 #define SYSCFG ( (SYSCFG_reg*) SYSCFG_BASEADDR )
+
+
 
 
 
