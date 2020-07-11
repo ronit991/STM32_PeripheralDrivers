@@ -88,8 +88,19 @@ typedef struct
 *                                                    Driver APIs
 ******************************************************************************************************************/
 
+void GPIO_ClockControl( uint8_t GPIOx, uint8_t enableOrDisable);
+void GPIO_Init(uint16_t pin, uint8_t ioMode, uint8_t pinMode, uint8_t gpioSpeed, uint8_t trigger);
+void GPIO_DeInit(void);
+
+void WriteToPin( uint16_t pin, uint8_t value);
+void WriteToPort(uint8_t GPIOx, uint16_t values);
+
+uint8_t ReadFromPin(uint8_t pin);
+uint16_t ReadFromPort(uint8_t GPIOx);
 
 
+
+void blinkLED(void);
 
 
 #ifdef __cplusplus
