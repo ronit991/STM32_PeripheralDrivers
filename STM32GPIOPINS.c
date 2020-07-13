@@ -22,7 +22,7 @@ GPIO_reg* getPortAddr(uint16_t pinOrPort)
   uint8_t GPIOPortName = 0;
   if(pinOrPort > 999)                       // If true => A pin name is given to the function.
   {
-    GPIOPortName = (pin/1000 + 9);          // Extract port name from the pin number.
+    GPIOPortName = (pinOrPort/1000 + 9);    // Extract port name from the pin number.
     // For explanation of the above expression, see getPortName() function definition in this file.
   }
   else                                      // A port name is given to the function
@@ -80,8 +80,10 @@ uint8_t getPortName(uint16_t pin)
 * @return - Pin Number (Ex: 5 for PA5, 13 for PF13 etc.).
 ******************************************************************************************************************/
 uint8_t getPinNumber(uint16_t pin)
-{  
-  return ( (uint8_t) pin%100 );
+{
+  uint8_t pinNum = pin%100;
+  //return ( (uint8_t) pin%100 );
+  return pinNum;
   /* Pin name aliases are assigned values in the format "X0NN", where NN represents the pin number.
    * Ex: PC5 has value 3005 - 3 for GPIOC & 05 for pin num 5.
    * Dividing the pin argument value by 100 & taking the remainder gives us the last two digits of the value i.e. the

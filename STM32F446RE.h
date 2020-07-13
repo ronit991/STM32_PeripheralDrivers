@@ -20,6 +20,9 @@
 #define ClrBit(x) &= ~(1<<x)
 #define GetBit(reg,bit) ( (reg & (1<<bit))?1:0 )
 
+#define ENABLE      1
+#define DISABLE     0
+
 
 /******************************************************************************************************************
 *                                        Base Addresses of Core Components
