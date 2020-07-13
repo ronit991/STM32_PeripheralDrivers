@@ -5,6 +5,9 @@
 * as well as the pin number from the pin name itself.
 ******************************************************************************************************************/
 
+[STM32GPIOPINS.h]
+[STM32GPIODRIVER.h]
+[STM32F446RE.h]
 
 #ifndef STM32GPIOPINS_H
 #define STM32GPIOPINS_H
@@ -18,8 +21,8 @@
 *                                                   Pin Names
 * @defgroup GPIO_PIN_NAME_ALIASES
 *
-* Pin name aliases are assigned values in the format "X0NN". X represents port number in the order (1-A, 2-B, ...
-* 8-H), and NN represents the pin number (Ex: PC5 has value 3005 - 3 for GPIOC & 05 for pin num 5).
+* Pin name aliases are assigned values in the format "XXNN". XX represents port number in the order (1-A, 2-B, ...
+* 8-H), and NN represents the pin number (Ex: PC5 has value 1205 - 12 for GPIOC & 05 for pin num 5).
 *
 ******************************************************************************************************************/
 
@@ -40,124 +43,124 @@
 #define PA14    1014
 #define PA15    1015
 
-#define PB0     2000
-#define PB1     2001
-#define PB2     2002
-#define PB3     2003
-#define PB4     2004
-#define PB5     2005
-#define PB6     2006
-#define PB7     2007
-#define PB8     2008
-#define PB9     2009
-#define PB10    2010
-#define PB11    2011
-#define PB12    2012
-#define PB13    2013
-#define PB14    2014
-#define PB15    2015
+#define PB0     1100
+#define PB1     1101
+#define PB2     1102
+#define PB3     1103
+#define PB4     1104
+#define PB5     1105
+#define PB6     1106
+#define PB7     1107
+#define PB8     1108
+#define PB9     1109
+#define PB10    1110
+#define PB11    1111
+#define PB12    1112
+#define PB13    1113
+#define PB14    1114
+#define PB15    1115
 
-#define PC0     3000
-#define PC1     3001
-#define PC2     3002
-#define PC3     3003
-#define PC4     3004
-#define PC5     3005
-#define PC6     3006
-#define PC7     3007
-#define PC8     3008
-#define PC9     3009
-#define PC10    3010
-#define PC11    3011
-#define PC12    3012
-#define PC13    3013
-#define PC14    3014
-#define PC15    3015
+#define PC0     1200
+#define PC1     1201
+#define PC2     1202
+#define PC3     1203
+#define PC4     1204
+#define PC5     1205
+#define PC6     1206
+#define PC7     1207
+#define PC8     1208
+#define PC9     1209
+#define PC10    1210
+#define PC11    1211
+#define PC12    1212
+#define PC13    1213
+#define PC14    1214
+#define PC15    1215
 
-#define PD0     4000
-#define PD1     4001
-#define PD2     4002
-#define PD3     4003
-#define PD4     4004
-#define PD5     4005
-#define PD6     4006
-#define PD7     4007
-#define PD8     4008
-#define PD9     4009
-#define PD10    4010
-#define PD11    4011
-#define PD12    4012
-#define PD13    4013
-#define PD14    4014
-#define PD15    4015
+#define PD0     1300
+#define PD1     1301
+#define PD2     1302
+#define PD3     1303
+#define PD4     1304
+#define PD5     1305
+#define PD6     1306
+#define PD7     1307
+#define PD8     1308
+#define PD9     1309
+#define PD10    1310
+#define PD11    1311
+#define PD12    1312
+#define PD13    1313
+#define PD14    1314
+#define PD15    1315
 
-#define PE0     5000
-#define PE1     5001
-#define PE2     5002
-#define PE3     5003
-#define PE4     5004
-#define PE5     5005
-#define PE6     5006
-#define PE7     5007
-#define PE8     5008
-#define PE9     5009
-#define PE10    5010
-#define PE11    5011
-#define PE12    5012
-#define PE13    5013
-#define PE14    5014
-#define PE15    5015
+#define PE0     1400
+#define PE1     1401
+#define PE2     1402
+#define PE3     1403
+#define PE4     1404
+#define PE5     1405
+#define PE6     1406
+#define PE7     1407
+#define PE8     1408
+#define PE9     1409
+#define PE10    1410
+#define PE11    1411
+#define PE12    1412
+#define PE13    1413
+#define PE14    1414
+#define PE15    1415
 
-#define PF0     6000
-#define PF1     6001
-#define PF2     6002
-#define PF3     6003
-#define PF4     6004
-#define PF5     6005
-#define PF6     6006
-#define PF7     6007
-#define PF8     6008
-#define PF9     6009
-#define PF10    6010
-#define PF11    6011
-#define PF12    6012
-#define PF13    6013
-#define PF14    6014
-#define PF15    6015
+#define PF0     1500
+#define PF1     1501
+#define PF2     1502
+#define PF3     1503
+#define PF4     1504
+#define PF5     1505
+#define PF6     1506
+#define PF7     1507
+#define PF8     1508
+#define PF9     1509
+#define PF10    1510
+#define PF11    1511
+#define PF12    1512
+#define PF13    1513
+#define PF14    1514
+#define PF15    1515
 
-#define PG0     7000
-#define PG1     7001
-#define PG2     7002
-#define PG3     7003
-#define PG4     7004
-#define PG5     7005
-#define PG6     7006
-#define PG7     7007
-#define PG8     7008
-#define PG9     7009
-#define PG10    7010
-#define PG11    7011
-#define PG12    7012
-#define PG13    7013
-#define PG14    7014
-#define PG15    7015
+#define PG0     1600
+#define PG1     1601
+#define PG2     1602
+#define PG3     1603
+#define PG4     1604
+#define PG5     1605
+#define PG6     1606
+#define PG7     1607
+#define PG8     1608
+#define PG9     1609
+#define PG10    1610
+#define PG11    1611
+#define PG12    1612
+#define PG13    1613
+#define PG14    1614
+#define PG15    1615
 
-#define PH0     8000
-#define PH1     8001
-#define PH2     8002
-#define PH3     8003
-#define PH4     8004
-#define PH5     8005
-#define PH6     8006
-#define PH7     8007
-#define PH8     8008
-#define PH9     8009
-#define PH10    8010
-#define PH11    8011
-#define PH12    8012
-#define PH13    8013
-#define PH14    8014
-#define PH15    8015
+#define PH0     1700
+#define PH1     1701
+#define PH2     1702
+#define PH3     1703
+#define PH4     1704
+#define PH5     1705
+#define PH6     1706
+#define PH7     1707
+#define PH8     1708
+#define PH9     1709
+#define PH10    1710
+#define PH11    1711
+#define PH12    1712
+#define PH13    1713
+#define PH14    1714
+#define PH15    1715
 
 #define INVALID_PIN   44
 #define INVALID_PORT  55
