@@ -141,13 +141,18 @@ typedef struct
 #define PIN_SET               1
 #define PIN_CLR               0
 
+// @defgroup LED_Blink_Speed
+#define LEDblinkSpeed_Low     1000000
+#define LEDblinkSpeed_Medium  500000
+#define LEDblinkSpeed_Fast    100000
+
 /******************************************************************************************************************
 *                                                    Driver APIs
 ******************************************************************************************************************/
 
 void GPIOClockControl( uint8_t GPIOx, uint8_t enableOrDisable);
 void GPIOInit(uint16_t pin, uint8_t ioMode, uint8_t outMode, uint8_t inMode, uint8_t gpioSpeed, uint8_t trigger, uint8_t alternateFunctionMode);
-void GPIODeInit(void);
+void GPIODeInit(uint8_t GPIOx);
 
 void WriteToPin( uint16_t pin, uint8_t value);
 void WriteToPort(uint8_t GPIOx, uint16_t values);
@@ -155,9 +160,10 @@ void WriteToPort(uint8_t GPIOx, uint16_t values);
 uint8_t ReadFromPin(uint8_t pin);
 uint16_t ReadFromPort(uint8_t GPIOx);
 
+void ToggleGPIOPin(uint8_t pin);
 
-
-void blinkLED(void);
+void useLEDandButtons(void);
+void blinkLED(uint32_t count, uint32_t blinkTime);
 
 
 #ifdef __cplusplus
