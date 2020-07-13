@@ -21,8 +21,8 @@
 *                                                   Pin Names
 * @defgroup GPIO_PIN_NAME_ALIASES
 *
-* Pin name aliases are assigned values in the format "XXNN". XX represents port number in the order (1-A, 2-B, ...
-* 8-H), and NN represents the pin number (Ex: PC5 has value 1205 - 12 for GPIOC & 05 for pin num 5).
+* Pin name aliases are assigned values in the format "XXNN". XX represents port number (@ref - PERIPHERAL_GPIO_PORTS
+* [STM32F446RE.h]) and NN represents the pin number (Ex: PC5 has value 1205 - 12 for GPIOC & 05 for pin num 5).
 *
 ******************************************************************************************************************/
 
