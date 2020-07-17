@@ -63,7 +63,7 @@ GPIO_reg* getPortAddr(uint16_t pinOrPort)
   uint8_t GPIOPortName = 0;
   if(pinOrPort > 999)                       // If true => A pin name is given to the function.
   {
-    GPIOPortName = (pin/100);               // Get port name from the pin number.
+    GPIOPortName = (pinOrPort/100);         // Get port name from the pin number.
     // For explanation of the above expression, see getPortName() function definition in this file.
   }
   else                                      // If false => A port name is given to the function

@@ -84,7 +84,7 @@ typedef struct
 
 
 /******************************************************************************************************************
-*                                             Module Access Pointers
+*                                           API  STD Parameter Values
 ******************************************************************************************************************/
 
 // @defgroup GPIOPin_IOMode
@@ -99,9 +99,9 @@ typedef struct
 #define GPIOOutNA             0b10
 
 // @defgroup GPIOPin_InputMode
-#define GPIOPullUp            0b00
-#define GPIOPullDown          0b01
-#define GPIOInNA              0b10
+#define GPIOPullUp            0b01
+#define GPIOPullDown          0b10
+#define GPIOInNA              0b00
 
 // @defgroup GPIOPin_OutputSpeed
 #define GPIOLowSpeed          0b000
@@ -111,11 +111,9 @@ typedef struct
 #define GPIOSpeedNA           0b100
 
 // @defgroup GPIOPin_InterruptTrigger
-#define GPIOIntrRisingEdge
-#define GPIOIntrFallingEdge
-#define GPIOIntrBothEdges
-#define GPIOIntrHighLevel
-#define GPIOIntrLowLevel
+#define GPIOIntrRisingEdge    0x01
+#define GPIOIntrFallingEdge   0x10
+#define GPIOIntrBothEdges     0x11
 #define GPIONoIntr            0xFF
 
 // @defgroup GPIOPin_AlternateMode
@@ -157,13 +155,15 @@ void GPIODeInit(uint8_t GPIOx);
 void WriteToPin( uint16_t pin, uint8_t value);
 void WriteToPort(uint8_t GPIOx, uint16_t values);
 
-uint8_t ReadFromPin(uint8_t pin);
+uint8_t ReadFromPin(uint16_t pin);
 uint16_t ReadFromPort(uint8_t GPIOx);
 
-void ToggleGPIOPin(uint8_t pin);
+void ToggleGPIOPin(uint16_t pin);
 
-void useLEDandButtons(void);
+void useLEDandButtons(uint8_t trigger);
 void blinkLED(uint32_t count, uint32_t blinkTime);
+
+void GPIOClearInterrupt(uint16_t pin);
 
 
 #ifdef __cplusplus

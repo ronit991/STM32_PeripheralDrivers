@@ -5,9 +5,7 @@
 * as well as the pin number from the pin name itself.
 ******************************************************************************************************************/
 
-[STM32GPIOPINS.h]
-[STM32GPIODRIVER.h]
-[STM32F446RE.h]
+
 
 #ifndef STM32GPIOPINS_H
 #define STM32GPIOPINS_H

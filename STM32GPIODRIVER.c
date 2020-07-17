@@ -120,6 +120,60 @@ void GPIOInit(uint16_t pin, uint8_t ioMode, uint8_t outMode, uint8_t inMode, uin
     pGPIOx->AFR[AFRindex] &= ~(0xF<<shiftAmount);  // Clear the AF bits associated with the pin
     pGPIOx->AFR[AFRindex] |= (alternateFunctionMode<<shiftAmount);
   }
+  
+  // Step 6: Configure EXTI for interrupt delivery
+  switch(trigger)
+  {
+    case GPIONoIntr:                return;
+    case GPIOIntrRisingEdge:        EXTI->RTSR SetBit(pinNumber);
+                                    EXTI->FTSR ClrBit(pinNumber);         break;
+    
+    case GPIOIntrFallingEdge:       EXTI->FTSR SetBit(pinNumber);
+                                    EXTI->RTSR ClrBit(pinNumber);         break;
+    
+    case GPIOIntrBothEdges:         EXTI->RTSR SetBit(pinNumber);
+                                    EXTI->FTSR SetBit(pinNumber);         break;
+    
+    default:  return;
+  }
+
+  // Enable interrupt delivery to the processor
+  SYSCFG_CLK_EN();
+  uint8_t CRindex = pinNumber/4;
+  uint8_t CRbitshift = (pinNumber%4)*4;
+  
+  SYSCFG->EXTICR[CRindex] &= ~(0xF<<CRbitshift);            // Clear the CR bit field before entering new value.
+  SYSCFG->EXTICR[CRindex] |= ((GPIOx - 10)<<CRbitshift);    // GPIOx @ref - PERIPHERAL_GPIO_PORTS [STM32F446RE.h]
+  
+  /* GPIOx      -     A       B       C       D       E       F       G       H
+   * Bit field  -    000     001     010     011     100     101     110     111
+   */
+  
+  switch(pinNumber)
+  {
+    case 0:     *NVIC_ISER0 SetBit(6);    break;
+    case 1:     *NVIC_ISER0 SetBit(7);    break;
+    case 2:     *NVIC_ISER0 SetBit(8);    break;
+    case 3:     *NVIC_ISER0 SetBit(9);    break;
+    case 4:     *NVIC_ISER0 SetBit(10);    break;
+    case 5:
+    case 6:
+    case 7:
+    case 8:
+    case 9:     *NVIC_ISER0 SetBit(23);    break;
+    case 10:
+    case 11:
+    case 12:
+    case 13:
+    case 14:
+    case 15:    *NVIC_ISER1 SetBit(8);    break;
+    default:    return;
+  }
+  
+  EXTI->IMR SetBit(pinNumber);      // Disable the mask of the interrupt line.
+  EXTI->EMR SetBit(pinNumber);
+  
+  
   // All Configuration is Done.
 }
 
@@ -183,7 +237,7 @@ void WriteToPin( uint16_t pin, uint8_t value)
 ******************************************************************************************************************/
 void WriteToPort(uint8_t GPIOx, uint16_t values)
 {
-  GPIO_reg* pGPIOx = getPortAddr(pin);              // Pointer to the GPIO Port.
+  GPIO_reg* pGPIOx = getPortAddr(GPIOx);              // Pointer to the GPIO Port.
   pGPIOx->OD |= (values<<0);
 }
 
@@ -200,7 +254,7 @@ void WriteToPort(uint8_t GPIOx, uint16_t values)
 * @Note         - It is assumed that the GPIO pin has been properly configured before calling this function. If it
 *                 isn't, the function may generate bus fault or other errors.
 ******************************************************************************************************************/
-uint8_t ReadFromPin(uint8_t pin)
+uint8_t ReadFromPin(uint16_t pin)
 {
   GPIO_reg* pGPIOx = getPortAddr(pin);              // Pointer to the GPIO Port.
   uint8_t pinNumber = getPinNumber(pin);            // Pin number.
@@ -225,7 +279,7 @@ uint8_t ReadFromPin(uint8_t pin)
 ******************************************************************************************************************/
 uint16_t ReadFromPort(uint8_t GPIOx)
 {
-  GPIO_reg* pGPIOx = getPortAddr(pin);              // Pointer to the GPIO Port.
+  GPIO_reg* pGPIOx = getPortAddr(GPIOx);              // Pointer to the GPIO Port.
   uint16_t portValues = (pGPIOx->ID &= 0x0000FFFF);
 
   return portValues;
@@ -244,7 +298,7 @@ uint16_t ReadFromPort(uint8_t GPIOx)
 * @Note         - It is assumed that the GPIO pin has been properly configured before calling this function. If it
 *                 isn't, the function may generate bus fault or other errors.
 ******************************************************************************************************************/
-void ToggleGPIOPin(uint8_t pin)
+void ToggleGPIOPin(uint16_t pin)
 {
   GPIO_reg* pGPIOx = getPortAddr(pin);              // Pointer to the GPIO Port.
   uint8_t pinNumber = getPinNumber(pin);            // Pin number.
@@ -260,12 +314,12 @@ void ToggleGPIOPin(uint8_t pin)
 *
 * @return          - Nothing.
 ******************************************************************************************************************/
-void useLEDandButtons(void)
+void useLEDandButtons(uint8_t trigger)
 {
   // Configure User LED
   GPIOInit(USER_LED0, GPIODigitalOut, GPIOPushPull, GPIOInNA, GPIOLowSpeed, GPIONoIntr, NoAlternateFunction);
   // Configure User Button
-  GPIOInit(USER_SW0, GPIODigitalIn, GPIOOutNA, GPIOPullUp, GPIOLowSpeed, GPIONoIntr, NoAlternateFunction);
+  GPIOInit(USER_SW0, GPIODigitalIn, GPIOOutNA, GPIOPullUp, GPIOLowSpeed, trigger, NoAlternateFunction);
 }
 
 
@@ -290,4 +344,20 @@ void blinkLED(uint32_t count, uint32_t blinkTime)
     ToggleGPIOPin(USER_LED0);
     for(int j = 0; j<blinkTime; j++);
   }
+}
+
+
+
+/******************************************************************************************************************
+* @GPIOClearInterrupt()
+* @description     - Clear the pending bit of the interrupt line associated with the given GPIO pin.
+*
+* @param pin       - Name of the pin to be toggled. @ref - GPIO_PIN_NAME_ALIASES [STM32GPIOPINS.h]
+*
+* @return          - Nothing.
+******************************************************************************************************************/
+void GPIOClearInterrupt(uint16_t pin)
+{
+  uint8_t pinNum = getPinNumber(pin);
+  EXTI->PR SetBit(pinNum);
 }

@@ -13,6 +13,7 @@
 #include <stdint.h>
 #include <stdlib.h>
 
+
 /******************************************************************************************************************
 *                                                General Macros
 * @defgroup GENERAL_MACROS
@@ -29,6 +30,7 @@
 #define DISABLE     0
 
 
+
 /******************************************************************************************************************
 *                                        Base Addresses of Core Components
 ******************************************************************************************************************/
@@ -39,12 +41,6 @@
 #define SRAM_BASEADDR                 SRAM1_BASEADDR          // SRAM1 is the main SRAM
 #define ROM_BASEADDR                  0x1FFF0000U             // Base Addr of ROM / SYSTEM MEMORY
 #define SYSTEM_MEMORY_BASEADDR        ROM_BASE_ADDR           // ROM is the System Memory
-
-
-#define CORE_PERIPHERAL_BASE_ADDR     0xE000E000U             // Base Addr of Core Peripherals
-#define SYSTEM_CONTROL_BASE_ADDR      0x400FE000U             // Base Addr of System Control Block Register
-#define NVIC_BASE_ADDR                0xE000E100U             // Base Addr of NVIC registers
-#define VECTOR_TABLE_BASE_ADDR        0x00000000U             // Base Addr of Vector Table
 
 #define PERIPH_BASEADDR               0x40000000U
 #define APB1PERIPH_BASEADDR           PERIPH_BASEADDR
@@ -179,6 +175,61 @@ typedef struct
 
 
 
+/******************************************************************************************************************
+*                                    NVIC - Nested Vector Interrupt Controller
+******************************************************************************************************************/
+#define NVICISER0ADDR     0xE000E100
+#define NVICISER1ADDR     0xE000E104
+#define NVICISER2ADDR     0xE000E108
+
+#define NVICICER0ADDR     0xE000E180
+#define NVICICER1ADDR     0xE000E184
+#define NVICICER2ADDR     0xE000E188
+
+#define NVICISPR0ADDR     0xE000E200
+#define NVICISPR1ADDR     0xE000E204
+#define NVICISPR2ADDR     0xE000E208
+
+#define NVICICPR0ADDR     0xE000E280
+#define NVICICPR1ADDR     0xE000E284
+#define NVICICPR2ADDR     0xE000E288
+
+#define NVICIABR0ADDR     0xE000E300
+#define NVICIABR1ADDR     0xE000E304
+#define NVICIABR2ADDR     0xE000E308
+
+#define NVICIPR0ADDR      0xE000E400
+#define NVICIPR1ADDR      0xE000E404
+#define NVICIPR2ADDR      0xE000E408
+
+#define NVICSTIRADDR      0xE000EF00
+
+
+#define NVIC_ISER0        ( (__reg*) NVICISER0ADDR )
+#define NVIC_ISER1        ( (__reg*) NVICISER1ADDR )
+#define NVIC_ISER2        ( (__reg*) NVICISER2ADDR )
+
+#define NVIC_ICER0        *( (__reg*) NVICICER0ADDR )
+#define NVIC_ICER1        *( (__reg*) NVICICER1ADDR )
+#define NVIC_ICER2        *( (__reg*) NVICICER2ADDR )
+
+#define NVIC_ISPR0        *( (__reg*) NVICISPR0ADDR )
+#define NVIC_ISPR1        *( (__reg*) NVICISPR1ADDR )
+#define NVIC_ISPR2        *( (__reg*) NVICISPR2ADDR )
+
+#define NVIC_ICPR0        *( (__reg*) NVICICPR0ADDR )
+#define NVIC_ICPR1        *( (__reg*) NVICICPR1ADDR )
+#define NVIC_ICPR2        *( (__reg*) NVICICPR2ADDR )
+
+#define NVIC_IABR0        *( (__reg*) NVICIABR0ADDR )
+#define NVIC_IABR1        *( (__reg*) NVICIABR1ADDR )
+#define NVIC_IABR2        *( (__reg*) NVICIABR2ADDR )
+
+#define NVIC_IPR0         *( (__reg*) NVICIPR0ADDR )
+#define NVIC_IPR1         *( (__reg*) NVICIPR1ADDR )
+#define NVIC_IPR2         *( (__reg*) NVICIPR2ADDR )
+#define NVIC_STIR         *( (__reg*) NVICSTIRADDR )
+
 
 
 /******************************************************************************************************************
@@ -212,7 +263,11 @@ typedef struct
   __reg Reserved1[2];
   __reg CFGR;
 }SYSCFG_reg;
-#define SYSCFG ( (SYSCFG_reg*) SYSCFG_BASEADDR )
+
+#define SYSCFG_CLK_EN()       ( RCC->APB2ENR SetBit(RCC_SYSCFG) )
+#define SYSCFG_CLK_DIS()      ( RCC->APB2ENR ClrBit(RCC_SYSCFG) )
+
+#define SYSCFG                ( (SYSCFG_reg*) SYSCFG_BASEADDR )
 
 
 
